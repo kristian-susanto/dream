@@ -12,11 +12,6 @@
 
     <form id="formSimulasi">
       <label>Sumber Data Pengeluaran:</label>
-      <!-- <div class="radio-group">
-        <label><input type="radio" id="modeProvinsi" name="mode" value="provinsi" checked /> <span>Gunakan UMP Provinsi</span></label>
-        <label><input type="radio" id="modeManual" name="mode" value="manual" /> <span>Input Manual</span></label>
-      </div> -->
-
       <input type="radio" id="modeProvinsi" name="mode" value="provinsi" checked />
       <label for="provinsi">Gunakan UMP Provinsi</label><br>
       <input type="radio" id="modeManual" name="mode" value="manual" />
@@ -38,8 +33,8 @@
       <label for="tahunSekarang">Tahun Sekarang:</label>
       <input type="number" id="tahunSekarang" min="1900" max="2100" required />
 
-      <label for="harapanUmur">Harapan Umur:</label>
-      <input type="number" id="harapanUmur" min="1" max="150" required />
+      <label for="checkpointUmur">Checkpoint Umur:</label>
+      <input type="number" id="checkpointUmur" min="1" max="150" required />
 
       <button type="submit">Hitung</button>
     </form>

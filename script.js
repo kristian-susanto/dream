@@ -48,11 +48,11 @@ function getAverageInflation(inflasiData) {
 document.addEventListener('DOMContentLoaded', function () {
   const tahunLahirInput = document.getElementById('tahunLahir');
   const tahunSekarangInput = document.getElementById('tahunSekarang');
-  const harapanUmurInput = document.getElementById('harapanUmur');
+  const checkpointUmurInput = document.getElementById('checkpointUmur');
 
   tahunLahirInput.value = 2003;
   tahunSekarangInput.value = new Date().getFullYear();
-  harapanUmurInput.value = tahunSekarangInput.value - tahunLahirInput.value;
+  checkpointUmurInput.value = tahunSekarangInput.value - tahunLahirInput.value;
 
   toggleInputMode();
 });
@@ -94,14 +94,14 @@ modeManual.addEventListener('change', toggleInputMode);
   document.getElementById(id).addEventListener('input', () => {
     const tLahir = parseInt(document.getElementById('tahunLahir').value);
     const tSekarang = parseInt(document.getElementById('tahunSekarang').value);
-    const harapanUmurInput = document.getElementById('harapanUmur');
+    const checkpointUmurInput = document.getElementById('checkpointUmur');
 
     if (!isNaN(tLahir) && !isNaN(tSekarang)) {
       const umurSaatIni = tSekarang - tLahir;
       if (umurSaatIni >= 0) {
-        harapanUmurInput.value = umurSaatIni;
+        checkpointUmurInput.value = umurSaatIni;
       } else {
-        harapanUmurInput.value = '';
+        checkpointUmurInput.value = '';
       }
     }
   });
@@ -112,15 +112,15 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
 
   const tahunLahir = parseInt(document.getElementById('tahunLahir').value);
   const tahunSekarang = parseInt(document.getElementById('tahunSekarang').value);
-  const harapanUmur = parseInt(document.getElementById('harapanUmur').value);
+  const checkpointUmur = parseInt(document.getElementById('checkpointUmur').value);
   const umurSaatIni = tahunSekarang - tahunLahir;
 
-  if (harapanUmur < umurSaatIni) {
-    alert(`Harapan umur (${harapanUmur}) tidak boleh lebih kecil dari umur saat ini (${umurSaatIni}).`);
+  if (checkpointUmur < umurSaatIni) {
+    alert(`Checkpoint umur (${checkpointUmur}) tidak boleh lebih kecil dari umur saat ini (${umurSaatIni}).`);
     return;
   }
 
-  const sisaTahun = harapanUmur - umurSaatIni;
+  const sisaTahun = checkpointUmur - umurSaatIni;
 
   let umpBulanan = 0;
   let provinsi = '-';
@@ -155,7 +155,7 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
     const tahunKe = sisaTahun + i;
     const biayaTahun = umpTahunan * Math.pow(1 + inflasiRata2, tahunKe);
     biayaPernikahan += biayaTahun;
-    rincianPernikahan += `<li>Tahun ke-${tahunKe}: Rp ${biayaTahun.toLocaleString('id-ID')}</li>`;
+    rincianPernikahan += `<li>Tahun ke-${tahunKe}: Rp ${Math.round(biayaTahun).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</li>`;
   }
 
   const total = 3 * (biayaPernikahan + mobilCost);
@@ -165,12 +165,12 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
     <p><strong>Pengeluaran Bulanan:</strong> Rp ${umpBulanan.toLocaleString('id-ID')}</p>
     <p><strong>UMP Tahunan:</strong> Rp ${umpTahunan.toLocaleString('id-ID')}</p>
     <p><strong>Rata-rata Inflasi:</strong> ${(inflasiRata2 * 100).toFixed(2)}%</p>
-    <p><strong>Sisa Tahun Harapan Hidup:</strong> ${sisaTahun} tahun</p>
-    <p><strong>Estimasi Biaya Pernikahan (3 tahun berturut-turut setelah umur harapan):</strong></p>
+    <p><strong>Sisa Checkpoint Umur:</strong> ${sisaTahun} tahun</p>
+    <p><strong>Estimasi Biaya Pernikahan (3 tahun berturut-turut setelah checkpoint umur):</strong></p>
     <ul>${rincianPernikahan}</ul>
-    <p><strong>Total Biaya Pernikahan:</strong> Rp ${biayaPernikahan.toLocaleString('id-ID')}</p>
+    <p><strong>Total Biaya Pernikahan:</strong> Rp ${Math.round(biayaPernikahan).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</p>
     <p><strong>Biaya Mobil:</strong> Rp ${mobilCost.toLocaleString('id-ID')}</p>
-    <p style="color:darkred;"><strong>Total Kebutuhan Dana:</strong> Rp ${total.toLocaleString('id-ID')}</p>
+    <p style="color:darkblue;"><strong>Total Kebutuhan Dana:</strong> Rp ${Math.round(total).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</p>
   `;
 });
 
