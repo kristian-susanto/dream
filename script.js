@@ -55,6 +55,25 @@ document.addEventListener('DOMContentLoaded', function () {
   harapanUmurInput.value = tahunSekarangInput.value - tahunLahirInput.value;
 });
 
+// Tampilkan input sesuai mode (provinsi/manual)
+const modeProvinsi = document.getElementById('modeProvinsi');
+const modeManual = document.getElementById('modeManual');
+const provinsiGroup = document.getElementById('provinsiGroup');
+const manualGroup = document.getElementById('manualGroup');
+
+function toggleInputMode() {
+  if (modeProvinsi.checked) {
+    provinsiGroup.style.display = 'block';
+    manualGroup.style.display = 'none';
+  } else {
+    provinsiGroup.style.display = 'none';
+    manualGroup.style.display = 'block';
+  }
+}
+
+modeProvinsi.addEventListener('change', toggleInputMode);
+modeManual.addEventListener('change', toggleInputMode);
+
 // Update otomatis harapan umur saat tahun lahir / sekarang berubah
 ['tahunLahir', 'tahunSekarang'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => {
@@ -70,14 +89,21 @@ document.addEventListener('DOMContentLoaded', function () {
 document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const provinsi = document.getElementById('provinsi').value;
   const tahunLahir = parseInt(document.getElementById('tahunLahir').value);
   const tahunSekarang = parseInt(document.getElementById('tahunSekarang').value);
   const harapanUmur = parseInt(document.getElementById('harapanUmur').value);
   const umurSaatIni = tahunSekarang - tahunLahir;
   const sisaTahun = harapanUmur - umurSaatIni;
 
-  const umpBulanan = umpData[provinsi];
+  let umpBulanan = 0;
+  let provinsi = '-';
+
+  if (modeProvinsi.checked) {
+    provinsi = document.getElementById('provinsi').value;
+    umpBulanan = umpData[provinsi];
+  } else {
+    umpBulanan = parseFloat(document.getElementById('pengeluaranManual').value);
+  }
   const umpTahunan = umpBulanan * 12;
   const inflasiRata2 = getAverageInflation(inflasiData); // Dalam bentuk desimal, misal 0.034
   const mobilCost = 383000000;
@@ -97,7 +123,8 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
 
   document.getElementById('hasil').innerHTML = `
     <p><strong>Provinsi:</strong> ${provinsi}</p>
-    <p><strong>UMP Bulanan:</strong> Rp ${umpBulanan.toLocaleString('id-ID')}</p>
+    <p><strong>Sumber Pengeluaran:</strong> ${modeProvinsi.checked ? `UMP Provinsi (${provinsi})` : 'Input Manual'}</p>
+    <p><strong>Pengeluaran Bulanan:</strong> Rp ${umpBulanan.toLocaleString('id-ID')}</p>
     <p><strong>UMP Tahunan:</strong> Rp ${umpTahunan.toLocaleString('id-ID')}</p>
     <p><strong>Rata-rata Inflasi:</strong> ${(inflasiRata2 * 100).toFixed(2)}%</p>
     <p><strong>Sisa Tahun Harapan Hidup:</strong> ${sisaTahun} tahun</p>
