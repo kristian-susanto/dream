@@ -110,13 +110,18 @@ modeManual.addEventListener('change', toggleInputMode);
 document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   e.preventDefault();
 
+  const errorMsg = document.getElementById('errorMsg');
+  errorMsg.style.display = 'none';
+  errorMsg.textContent = '';
+
   const tahunLahir = parseInt(document.getElementById('tahunLahir').value);
   const tahunSekarang = parseInt(document.getElementById('tahunSekarang').value);
   const checkpointUmur = parseInt(document.getElementById('checkpointUmur').value);
   const umurSaatIni = tahunSekarang - tahunLahir;
 
   if (checkpointUmur < umurSaatIni) {
-    alert(`Checkpoint umur (${checkpointUmur}) tidak boleh lebih kecil dari umur saat ini (${umurSaatIni}).`);
+    errorMsg.textContent = `Checkpoint umur (${checkpointUmur}) tidak boleh lebih kecil dari umur saat ini (${umurSaatIni}).`;
+    errorMsg.style.display = 'inline';
     return;
   }
 
@@ -127,16 +132,13 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
 
   if (modeProvinsi.checked) {
     provinsi = document.getElementById('provinsi').value;
-    if (!provinsi) {
-      alert('Silakan pilih provinsi terlebih dahulu.');
-      return;
-    }
     umpBulanan = umpData[provinsi];
   } else {
     const pengeluaranManualRaw = document.getElementById('pengeluaranManual').value.replace(/\./g, '').replace(',', '');
     const pengeluaranManual = parseFloat(pengeluaranManualRaw);
     if (isNaN(pengeluaranManual) || pengeluaranManual <= 0) {
-      alert('Mohon masukkan pengeluaran bulanan yang valid.');
+      errorMsg.textContent = 'Mohon masukkan pengeluaran bulanan yang valid.';
+      errorMsg.style.display = 'inline';
       return;
     }
     umpBulanan = pengeluaranManual;
