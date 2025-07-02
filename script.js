@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
   tahunLahirInput.value = 2003;
   tahunSekarangInput.value = new Date().getFullYear();
   harapanUmurInput.value = tahunSekarangInput.value - tahunLahirInput.value;
+
+  toggleInputMode();
 });
 
 // Tampilkan input sesuai mode (provinsi/manual)
@@ -65,9 +67,13 @@ function toggleInputMode() {
   if (modeProvinsi.checked) {
     provinsiGroup.style.display = 'block';
     manualGroup.style.display = 'none';
+    document.getElementById('provinsi').required = true;
+    document.getElementById('pengeluaranManual').required = false;
   } else {
     provinsiGroup.style.display = 'none';
     manualGroup.style.display = 'block';
+    document.getElementById('provinsi').required = false;
+    document.getElementById('pengeluaranManual').required = true;
   }
 }
 
@@ -144,7 +150,6 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   const total = 3 * (biayaPernikahan + mobilCost);
 
   document.getElementById('hasil').innerHTML = `
-    <p><strong>Provinsi:</strong> ${provinsi}</p>
     <p><strong>Sumber Pengeluaran:</strong> ${modeProvinsi.checked ? `UMP Provinsi (${provinsi})` : 'Input Manual'}</p>
     <p><strong>Pengeluaran Bulanan:</strong> Rp ${umpBulanan.toLocaleString('id-ID')}</p>
     <p><strong>UMP Tahunan:</strong> Rp ${umpTahunan.toLocaleString('id-ID')}</p>
