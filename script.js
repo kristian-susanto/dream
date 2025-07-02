@@ -74,14 +74,19 @@ function toggleInputMode() {
 modeProvinsi.addEventListener('change', toggleInputMode);
 modeManual.addEventListener('change', toggleInputMode);
 
-// Update otomatis harapan umur saat tahun lahir / sekarang berubah
 ['tahunLahir', 'tahunSekarang'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => {
     const tLahir = parseInt(document.getElementById('tahunLahir').value);
     const tSekarang = parseInt(document.getElementById('tahunSekarang').value);
     const harapanUmurInput = document.getElementById('harapanUmur');
-    if (!isNaN(tLahir) && !isNaN(tSekarang) && tSekarang >= tLahir) {
-      harapanUmurInput.value = tSekarang - tLahir;
+
+    if (!isNaN(tLahir) && !isNaN(tSekarang)) {
+      const umurSaatIni = tSekarang - tLahir;
+      if (umurSaatIni >= 0) {
+        harapanUmurInput.value = umurSaatIni;
+      } else {
+        harapanUmurInput.value = '';
+      }
     }
   });
 });
@@ -93,6 +98,12 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   const tahunSekarang = parseInt(document.getElementById('tahunSekarang').value);
   const harapanUmur = parseInt(document.getElementById('harapanUmur').value);
   const umurSaatIni = tahunSekarang - tahunLahir;
+
+  if (harapanUmur < umurSaatIni) {
+    alert(`Harapan umur (${harapanUmur}) tidak boleh lebih kecil dari umur saat ini (${umurSaatIni}).`);
+    return;
+  }
+
   const sisaTahun = harapanUmur - umurSaatIni;
 
   let umpBulanan = 0;
