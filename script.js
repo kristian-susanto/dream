@@ -45,7 +45,18 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   const tahunLahir = parseInt(document.getElementById('tahunLahir').value);
   const tahunSekarang = parseInt(document.getElementById('tahunSekarang').value);
   const harapanUmur = parseInt(document.getElementById('harapanUmur').value);
+
+  if (tahunSekarang < tahunLahir) {
+    alert('Tahun sekarang tidak boleh lebih kecil dari tahun lahir.');
+    return;
+  }
+
   const umurSaatIni = tahunSekarang - tahunLahir;
+  if (harapanUmur <= umurSaatIni) {
+    alert('Harapan umur harus lebih besar dari umur saat ini.');
+    return;
+  }
+
   const sisaTahun = harapanUmur - umurSaatIni;
 
   const umpTahunan = umpData[provinsi] * 12;
@@ -60,4 +71,61 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   const total = (3 * biayaPernikahan) + mobilCost;
 
   document.getElementById('hasil').textContent = `Total kebutuhan: Rp ${total.toLocaleString('id-ID')}`;
+
+  // Kirim data ke grafik
+  tampilkanGrafikSimulasi(sisaTahun, umpTahunan, inflasiRata2);
 });
+
+let chartInstance = null;
+
+function tampilkanGrafikSimulasi(sisaTahun, umpTahunan, inflasiRata2) {
+  const labels = [];
+  const data = [];
+
+  for (let i = 1; i <= sisaTahun; i++) {
+    labels.push(`Tahun +${i}`);
+    const biaya = umpTahunan * Math.pow(1 + inflasiRata2, i);
+    data.push(Math.round(biaya));
+  }
+
+  const ctx = document.getElementById('grafikSimulasi').getContext('2d');
+
+  if (chartInstance) {
+    chartInstance.destroy(); // jika sudah ada, hapus dulu
+  }
+
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Proyeksi Biaya Tahunan',
+        data: data,
+        borderColor: 'blue',
+        fill: false,
+        tension: 0.1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Simulasi Kenaikan Biaya Tahunan (UMP dengan Inflasi)'
+        }
+      },
+      scales: {
+        y: {
+          ticks: {
+            callback: function(value) {
+              return 'Rp ' + value.toLocaleString('id-ID');
+            }
+          }
+        }
+      }
+    }
+  });
+}
