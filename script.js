@@ -7,7 +7,12 @@ Promise.all([
   fetch('inflasi.json').then(res => res.json())
 ]).then(([umpJson, inflasiJson]) => {
   umpJson.forEach(item => {
-    umpData[item.Provinsi] = item.UMP;
+    // Ubah string UMP ke angka: "3.685.616,00" => 3685616.00
+    const umpString = item["Upah Minimum (Rp)"]
+      .replace(/\./g, '') // hilangkan titik ribuan
+      .replace(',', '.'); // ganti koma menjadi titik desimal
+
+    umpData[item.Provinsi] = parseFloat(umpString);
   });
   inflasiData = inflasiJson;
 
@@ -22,8 +27,14 @@ Promise.all([
 });
 
 function getAverageInflation(inflasiData) {
-  const recent = inflasiData.filter(d => d.Year >= 2018);
-  const sum = recent.reduce((acc, val) => acc + val.Inflation, 0);
+  const recent = inflasiData
+    .filter(d => parseInt(d.Year) >= 2018)
+    .map(d => {
+      const angka = parseFloat(d.Inflation.replace(',', '.').replace('%', ''));
+      return angka / 100;
+    });
+
+  const sum = recent.reduce((acc, val) => acc + val, 0);
   return sum / recent.length;
 }
 
