@@ -27,16 +27,22 @@ Promise.all([
 });
 
 function getAverageInflation(inflasiData) {
-  const recent = inflasiData
-    .filter(d => parseInt(d.Year) >= 2018)
-    .map(d => {
-      const angka = parseFloat(d.Inflation.replace(',', '.').replace('%', ''));
-      return angka / 100;
-    });
+  const semuaTahun = inflasiData.map(d => {
+    const angka = parseFloat(d.Inflation.replace(',', '.').replace('%', ''));
+    return angka / 100;
+  });
 
-  const sum = recent.reduce((acc, val) => acc + val, 0);
-  return sum / recent.length;
+  const sum = semuaTahun.reduce((acc, val) => acc + val, 0);
+  return sum / semuaTahun.length;
 }
+
+// Set nilai default input
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('tahunLahir').value = 2003;
+
+  const currentYear = new Date().getFullYear();
+  document.getElementById('tahunSekarang').value = currentYear;
+});
 
 document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -45,18 +51,7 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   const tahunLahir = parseInt(document.getElementById('tahunLahir').value);
   const tahunSekarang = parseInt(document.getElementById('tahunSekarang').value);
   const harapanUmur = parseInt(document.getElementById('harapanUmur').value);
-
-  if (tahunSekarang < tahunLahir) {
-    alert('Tahun sekarang tidak boleh lebih kecil dari tahun lahir.');
-    return;
-  }
-
   const umurSaatIni = tahunSekarang - tahunLahir;
-  if (harapanUmur <= umurSaatIni) {
-    alert('Harapan umur harus lebih besar dari umur saat ini.');
-    return;
-  }
-
   const sisaTahun = harapanUmur - umurSaatIni;
 
   const umpTahunan = umpData[provinsi] * 12;
@@ -70,62 +65,9 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
 
   const total = (3 * biayaPernikahan) + mobilCost;
 
-  document.getElementById('hasil').textContent = `Total kebutuhan: Rp ${total.toLocaleString('id-ID')}`;
-
-  // Kirim data ke grafik
-  tampilkanGrafikSimulasi(sisaTahun, umpTahunan, inflasiRata2);
+  document.getElementById('hasil').innerHTML = `
+    <p>Biaya Pernikahan (estimasi): Rp ${biayaPernikahan.toLocaleString('id-ID')}</p>
+    <p>Biaya Mobil: Rp ${mobilCost.toLocaleString('id-ID')}</p>
+    <p><strong>Total Kebutuhan: Rp ${total.toLocaleString('id-ID')}</strong></p>
+  `;
 });
-
-let chartInstance = null;
-
-function tampilkanGrafikSimulasi(sisaTahun, umpTahunan, inflasiRata2) {
-  const labels = [];
-  const data = [];
-
-  for (let i = 1; i <= sisaTahun; i++) {
-    labels.push(`Tahun +${i}`);
-    const biaya = umpTahunan * Math.pow(1 + inflasiRata2, i);
-    data.push(Math.round(biaya));
-  }
-
-  const ctx = document.getElementById('grafikSimulasi').getContext('2d');
-
-  if (chartInstance) {
-    chartInstance.destroy(); // jika sudah ada, hapus dulu
-  }
-
-  chartInstance = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Proyeksi Biaya Tahunan',
-        data: data,
-        borderColor: 'blue',
-        fill: false,
-        tension: 0.1
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'top',
-        },
-        title: {
-          display: true,
-          text: 'Simulasi Kenaikan Biaya Tahunan (UMP dengan Inflasi)'
-        }
-      },
-      scales: {
-        y: {
-          ticks: {
-            callback: function(value) {
-              return 'Rp ' + value.toLocaleString('id-ID');
-            }
-          }
-        }
-      }
-    }
-  });
-}

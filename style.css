@@ -39,3 +39,7 @@ form button {
   font-weight: bold;
   color: green;
 }
+
+#hasil p {
+  margin: 5px 0;
+}
