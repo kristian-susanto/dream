@@ -57,6 +57,16 @@ document.addEventListener('DOMContentLoaded', function () {
   toggleInputMode();
 });
 
+// Format angka input manual jadi format Indonesia
+const pengeluaranManualInput = document.getElementById('pengeluaranManual');
+
+pengeluaranManualInput.addEventListener('input', function () {
+  const raw = pengeluaranManualInput.value.replace(/\./g, '');
+  if (!isNaN(raw) && raw !== '') {
+    pengeluaranManualInput.value = parseInt(raw).toLocaleString('id-ID');
+  }
+});
+
 // Tampilkan input sesuai mode (provinsi/manual)
 const modeProvinsi = document.getElementById('modeProvinsi');
 const modeManual = document.getElementById('modeManual');
@@ -123,7 +133,8 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
     }
     umpBulanan = umpData[provinsi];
   } else {
-    const pengeluaranManual = parseFloat(document.getElementById('pengeluaranManual').value);
+    const pengeluaranManualRaw = document.getElementById('pengeluaranManual').value.replace(/\./g, '').replace(',', '');
+    const pengeluaranManual = parseFloat(pengeluaranManualRaw);
     if (isNaN(pengeluaranManual) || pengeluaranManual <= 0) {
       alert('Mohon masukkan pengeluaran bulanan yang valid.');
       return;

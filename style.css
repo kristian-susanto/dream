@@ -40,6 +40,12 @@ form button {
   gap: 5px;
 }
 
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 #hasil {
   margin-top: 20px;
   font-size: 1.2em;
