@@ -33,7 +33,7 @@ form button {
   box-sizing: border-box;
 }
 
-.radio-group {
+/* .radio-group {
   display: flex;
   flex-direction: column;
   margin-top: 5px;
@@ -44,7 +44,7 @@ form button {
   display: flex;
   align-items: center;
   gap: 10px;
-}
+} */
 
 #hasil {
   margin-top: 20px;
