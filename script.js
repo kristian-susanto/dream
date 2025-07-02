@@ -54,20 +54,35 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
   const umurSaatIni = tahunSekarang - tahunLahir;
   const sisaTahun = harapanUmur - umurSaatIni;
 
-  const umpTahunan = umpData[provinsi] * 12;
-  const inflasiRata2 = getAverageInflation(inflasiData);
+  const umpBulanan = umpData[provinsi];
+  const umpTahunan = umpBulanan * 12;
+  const inflasiRata2 = getAverageInflation(inflasiData); // Dalam bentuk desimal, misal 0.034
   const mobilCost = 383000000;
 
+  // Hitung biaya pernikahan dengan inflasi
   let biayaPernikahan = 0;
+  let rincianPernikahan = '';
+
   for (let i = 1; i <= 3; i++) {
-    biayaPernikahan += umpTahunan * Math.pow(1 + inflasiRata2, sisaTahun + i);
+    const tahunKe = sisaTahun + i;
+    const biayaTahun = umpTahunan * Math.pow(1 + inflasiRata2, tahunKe);
+    biayaPernikahan += biayaTahun;
+    rincianPernikahan += `<li>Tahun ke-${tahunKe}: Rp ${biayaTahun.toLocaleString('id-ID')}</li>`;
   }
 
   const total = (3 * biayaPernikahan) + mobilCost;
 
   document.getElementById('hasil').innerHTML = `
-    <p>Biaya Pernikahan (estimasi): Rp ${biayaPernikahan.toLocaleString('id-ID')}</p>
-    <p>Biaya Mobil: Rp ${mobilCost.toLocaleString('id-ID')}</p>
-    <p><strong>Total Kebutuhan: Rp ${total.toLocaleString('id-ID')}</strong></p>
+    <p><strong>Provinsi:</strong> ${provinsi}</p>
+    <p><strong>UMP Bulanan:</strong> Rp ${umpBulanan.toLocaleString('id-ID')}</p>
+    <p><strong>UMP Tahunan:</strong> Rp ${umpTahunan.toLocaleString('id-ID')}</p>
+    <p><strong>Rata-rata Inflasi:</strong> ${(inflasiRata2 * 100).toFixed(2)}%</p>
+    <p><strong>Sisa Tahun Harapan Hidup:</strong> ${sisaTahun} tahun</p>
+    <p><strong>Estimasi Biaya Pernikahan (3 tahun berturut-turut setelah umur harapan):</strong></p>
+    <ul>${rincianPernikahan}</ul>
+    <p><strong>Total Biaya Pernikahan:</strong> Rp ${biayaPernikahan.toLocaleString('id-ID')}</p>
+    <p><strong>Biaya Mobil:</strong> Rp ${mobilCost.toLocaleString('id-ID')}</p>
+    <p style="color:darkred;"><strong>Total Kebutuhan Dana:</strong> Rp ${total.toLocaleString('id-ID')}</p>
   `;
 });
+
