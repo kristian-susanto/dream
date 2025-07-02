@@ -170,7 +170,7 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
     <ul>${rincianPernikahan}</ul>
     <p><strong>Total Biaya Pernikahan:</strong> Rp ${Math.round(biayaPernikahan).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</p>
     <p><strong>Biaya Mobil:</strong> Rp ${mobilCost.toLocaleString('id-ID')}</p>
-    <p style="color:darkblue;"><strong>Total Kebutuhan Dana:</strong> Rp ${Math.round(total).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</p>
+    <p style="color:blue;"><strong>Total Kebutuhan Dana:</strong> Rp ${Math.round(total).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</p>
   `;
 });
 
