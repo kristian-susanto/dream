@@ -100,10 +100,21 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
 
   if (modeProvinsi.checked) {
     provinsi = document.getElementById('provinsi').value;
+    if (!provinsi) {
+      alert('Silakan pilih provinsi terlebih dahulu.');
+      return;
+    }
     umpBulanan = umpData[provinsi];
   } else {
-    umpBulanan = parseFloat(document.getElementById('pengeluaranManual').value);
+    const pengeluaranManual = parseFloat(document.getElementById('pengeluaranManual').value);
+    if (isNaN(pengeluaranManual) || pengeluaranManual <= 0) {
+      alert('Mohon masukkan pengeluaran bulanan yang valid.');
+      return;
+    }
+    umpBulanan = pengeluaranManual;
+    provinsi = '-';
   }
+
   const umpTahunan = umpBulanan * 12;
   const inflasiRata2 = getAverageInflation(inflasiData); // Dalam bentuk desimal, misal 0.034
   const mobilCost = 383000000;
