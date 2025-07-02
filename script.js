@@ -3,8 +3,8 @@ let inflasiData = [];
 
 // Load kedua file JSON
 Promise.all([
-  fetch('ump.json').then(res => res.json()),
-  fetch('inflasi.json').then(res => res.json())
+  fetch('assets/ump.json').then(res => res.json()),
+  fetch('assets/inflasi.json').then(res => res.json())
 ]).then(([umpJson, inflasiJson]) => {
   umpJson.forEach(item => {
     // Ubah string UMP ke angka: "3.685.616,00" => 3685616.00
@@ -18,6 +18,14 @@ Promise.all([
 
   // Populate provinsi
   const provinsiSelect = document.getElementById('provinsi');
+  // Tambah placeholder "--pilih provinsi--"
+  const defaultOption = document.createElement('option');
+  defaultOption.value = '';
+  defaultOption.textContent = '--pilih provinsi--';
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  provinsiSelect.appendChild(defaultOption);
+
   Object.keys(umpData).forEach(prov => {
     const option = document.createElement('option');
     option.value = prov;
@@ -38,10 +46,25 @@ function getAverageInflation(inflasiData) {
 
 // Set nilai default input
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('tahunLahir').value = 2003;
+  const tahunLahirInput = document.getElementById('tahunLahir');
+  const tahunSekarangInput = document.getElementById('tahunSekarang');
+  const harapanUmurInput = document.getElementById('harapanUmur');
 
-  const currentYear = new Date().getFullYear();
-  document.getElementById('tahunSekarang').value = currentYear;
+  tahunLahirInput.value = 2003;
+  tahunSekarangInput.value = new Date().getFullYear();
+  harapanUmurInput.value = tahunSekarangInput.value - tahunLahirInput.value;
+});
+
+// Update otomatis harapan umur saat tahun lahir / sekarang berubah
+['tahunLahir', 'tahunSekarang'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    const tLahir = parseInt(document.getElementById('tahunLahir').value);
+    const tSekarang = parseInt(document.getElementById('tahunSekarang').value);
+    const harapanUmurInput = document.getElementById('harapanUmur');
+    if (!isNaN(tLahir) && !isNaN(tSekarang) && tSekarang >= tLahir) {
+      harapanUmurInput.value = tSekarang - tLahir;
+    }
+  });
 });
 
 document.getElementById('formSimulasi').addEventListener('submit', function(e) {
@@ -70,7 +93,7 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
     rincianPernikahan += `<li>Tahun ke-${tahunKe}: Rp ${biayaTahun.toLocaleString('id-ID')}</li>`;
   }
 
-  const total = (3 * biayaPernikahan) + mobilCost;
+  const total = 3 * (biayaPernikahan + mobilCost);
 
   document.getElementById('hasil').innerHTML = `
     <p><strong>Provinsi:</strong> ${provinsi}</p>
