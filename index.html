@@ -12,10 +12,10 @@
 
     <form id="formSimulasi">
       <label>Sumber Data Pengeluaran:</label>
-      <input type="radio" id="modeProvinsi" name="mode" value="provinsi" checked />
-      <label for="provinsi">Gunakan UMP Provinsi</label><br>
-      <input type="radio" id="modeManual" name="mode" value="manual" />
-      <label for="manual">Input Manual</label><br>
+      <div class="radio-group">
+        <label><input type="radio" id="modeProvinsi" name="mode" value="provinsi" checked /> Gunakan UMP Provinsi</label>
+        <label><input type="radio" id="modeManual" name="mode" value="manual" /> Input Manual</label>
+      </div>
 
       <div id="provinsiGroup">
         <label for="provinsi">Provinsi:</label>
