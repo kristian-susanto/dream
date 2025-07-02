@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simulasi Dana Masa Depan</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Simulasi Dana Masa Depan</h1>
+
+    <form id="formSimulasi">
+      <label for="provinsi">Provinsi:</label>
+      <select id="provinsi" required></select>
+
+      <label for="tahunLahir">Tahun Lahir:</label>
+      <input type="number" id="tahunLahir" min="1900" max="2100" required />
+
+      <label for="tahunSekarang">Tahun Sekarang:</label>
+      <input type="number" id="tahunSekarang" min="1900" max="2100" required />
+
+      <label for="harapanUmur">Harapan Umur:</label>
+      <input type="number" id="harapanUmur" min="1" max="150" required />
+
+      <button type="submit">Hitung</button>
+    </form>
+
+    <div id="hasil"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
