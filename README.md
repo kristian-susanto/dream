@@ -32,12 +32,12 @@ Aplikasi web ini membantu mensimulasikan estimasi kebutuhan dana masa depan berd
 
 1. **Buka** `index.html` di browser.
 2. Pilih sumber pengeluaran:
-- UMP Provinsi (pilih provinsi dari dropdown), atau
-- Input manual pengeluaran bulanan
+  - UMP Provinsi (pilih provinsi dari dropdown), atau
+  - Input manual pengeluaran bulanan
 3. Masukkan:
-- Tahun lahir
-- Tahun sekarang
-- Checkpoint umur
+  - Tahun lahir
+  - Tahun sekarang
+  - Checkpoint umur
 4. Klik tombol **Hitung**.
 5. Hasil simulasi akan muncul berupa estimasi kebutuhan dana.
 
