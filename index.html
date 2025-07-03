@@ -18,26 +18,26 @@
       </div>
 
       <div id="provinsiGroup">
-        <label for="provinsi">Provinsi:</label>
-        <select id="provinsi" required></select>
+        <label for="provinsi" style="display: block; margin-top: 10px;">Provinsi:</label>
+        <select id="provinsi" style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;" required></select>
       </div>
 
       <div id="manualGroup" style="display: none;">
-        <label for="pengeluaranManual">Pengeluaran Bulanan (Rp):</label>
-        <input type="tel" id="pengeluaranManual" min="0" step="1000" required />
+        <label for="pengeluaranManual" style="display: block; margin-top: 10px;">Pengeluaran Bulanan (Rp):</label>
+        <input type="tel" id="pengeluaranManual" style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;" min="0" step="1000" required />
       </div>
 
-      <label for="tahunLahir">Tahun Lahir:</label>
-      <input type="number" id="tahunLahir" min="1900" max="2100" required />
+      <label for="tahunLahir" style="display: block; margin-top: 10px;">Tahun Lahir:</label>
+      <input type="number" id="tahunLahir" style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;" min="1900" max="2100" required />
 
-      <label for="tahunSekarang">Tahun Sekarang:</label>
-      <input type="number" id="tahunSekarang" min="1900" max="2100" required />
+      <label for="tahunSekarang" style="display: block; margin-top: 10px;">Tahun Sekarang:</label>
+      <input type="number" id="tahunSekarang" style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;" min="1900" max="2100" required />
 
-      <label for="checkpointUmur">Checkpoint Umur:</label>
-      <input type="number" id="checkpointUmur" min="1" max="150" required />
+      <label for="checkpointUmur" style="display: block; margin-top: 10px;">Checkpoint Umur:</label>
+      <input type="number" id="checkpointUmur" style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;" min="1" max="150" required />
 
       <span id="errorMsg" style="color:red; display:none;"></span>
-      <button type="submit">Hitung</button>
+      <button type="submit" style="width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box;">Hitung</button>
     </form>
 
     <div id="hasil"></div>

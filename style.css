@@ -19,20 +19,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-form label {
-  display: block;
-  margin-top: 10px;
-}
-
-form input,
-form select,
-form button {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  box-sizing: border-box;
-}
-
 .radio-group {
   display: flex;
   flex-direction: column;
