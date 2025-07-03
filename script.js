@@ -173,6 +173,15 @@ document.getElementById('formSimulasi').addEventListener('submit', function(e) {
     <p><strong>Total Biaya Pernikahan:</strong> Rp ${Math.round(biayaPernikahan).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</p>
     <p><strong>Biaya Mobil:</strong> Rp ${mobilCost.toLocaleString('id-ID')}</p>
     <p style="color:blue;"><strong>Total Kebutuhan Dana:</strong> Rp ${Math.round(total).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</p>
+    <p style="color:blue;"><strong>Rincian Total Kebutuhan Dana:</strong></p>
+    <ul>
+      <li style="color:blue;"><strong>Mobil + Wedding:</strong> Rp ${Math.round(total/3).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</li>
+      <li style="color:blue;"><strong>Dana darurat dari mobil + wedding dan tabungan sementara keluarga:</strong> Rp ${Math.round(total/3).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</li>
+      <li style="color:blue;"><strong>Kesehatan orangtua suami:</strong> Rp ${Math.round(total/12).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</li>
+      <li style="color:blue;"><strong>Kesehatan orangtua istri:</strong> Rp ${Math.round(total/12).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</li>
+      <li style="color:blue;"><strong>Investasi:</strong> Rp ${Math.round(total/12).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</li>
+      <li style="color:blue;"><strong>Tabungan sementara keluarga:</strong> Rp ${Math.round(total/12).toLocaleString('id-ID', { maximumFractionDigits: 0 })}</li>
+    </ul>
   `;
 });
 
